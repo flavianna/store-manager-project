@@ -39,9 +39,23 @@ const update = async (id, name) => {
   };
 };
 
+const erase = async (id) => {
+  const allProducts = await productModel.findAll();
+  const validate = allProducts.some((product) => +product.id === +id);
+  if (!validate) return { type: 404, message: 'Product not found' };
+
+  const { verify } = await productModel.erase(id);
+  if (verify === 0) return { type: 404, message: 'Product not found' };
+
+  return {
+    type: null, message: verify,
+  };
+};
+
 module.exports = {
   findAll,
   getById,
   insert,
   update,
+  erase,
 };

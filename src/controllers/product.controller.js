@@ -44,9 +44,17 @@ const update = async (req, res) => {
   }
 };
 
+const erase = async (req, res) => {
+  const { id } = req.params;
+  const { type, message } = await productService.erase(id);
+  if (type === 404) return res.status(404).json({ message });
+  return res.status(204).json(message);
+};
+
 module.exports = {
   findAll,
   getById,
   insert,
   update,
+  erase,
 };
